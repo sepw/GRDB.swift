@@ -674,8 +674,9 @@ struct SchemaInfo: Equatable {
     ///     try db.execute(sql: "CREATE TABLE FooBar (...)")
     ///     try db.schema().canonicalName("foobar", ofType: .table) // "FooBar"
     func canonicalName(_ name: String, ofType type: SchemaObjectType) -> String? {
+        let schema = name.databaseSchema
         let name = name.lowercased()
-        return objects.first { $0.name.lowercased() == name }?.name
+        return objects.first { $0.name.lowercased() == name }?.name.prefixingDatabaseSchema(schema)
     }
     
     private struct SchemaObject: Codable, Hashable, FetchableRecord {
