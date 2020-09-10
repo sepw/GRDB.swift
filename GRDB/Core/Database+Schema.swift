@@ -45,7 +45,7 @@ extension Database {
         // > "sqlite_" is an internal schema object. SQLite prohibits
         // > applications from creating objects whose names begin with
         // > "sqlite_".
-        return tableName.starts(with: "sqlite_")
+        return tableName.strippingDatabaseSchema().starts(with: "sqlite_")
     }
     
     /// Returns whether a table is an internal GRDB table.
