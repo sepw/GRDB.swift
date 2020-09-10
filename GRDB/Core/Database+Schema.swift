@@ -30,7 +30,17 @@ extension Database {
     
     /// Returns whether a table exists.
     public func tableExists(_ name: String) throws -> Bool {
-        try exists(type: .table, name: name)
+        if try exists(type: .table, name: name) {
+            return true
+        } else if !name.databaseSchema.isEmpty {
+            // exists() is based on querying sql_master which doesn't list
+            // tables in attached databases, so try checking against the
+            // database's table_info.
+            let tableInfo = "table_info".prefixingDatabaseSchema(name.databaseSchema)
+            return try !ColumnInfo.fetchAll(self, sql: "PRAGMA \(tableInfo)(\(name.strippingDatabaseSchema().quotedDatabaseIdentifier))").isEmpty
+        } else {
+            return false
+        }
     }
     
     /// Returns whether a table is an internal SQLite table.
