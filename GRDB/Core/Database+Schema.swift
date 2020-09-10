@@ -270,7 +270,8 @@ extension Database {
             destinationTable: String,
             mapping: [(origin: String, destination: String?, seq: Int)])] = []
         var previousId: Int? = nil
-        for row in try Row.fetchAll(self, sql: "PRAGMA foreign_key_list(\(tableName.quotedDatabaseIdentifier))") {
+        let foreign_key_list = "foreign_key_list".prefixingDatabaseSchema(tableName.databaseSchema)
+        for row in try Row.fetchAll(self, sql: "PRAGMA \(foreign_key_list)(\(tableName.strippingDatabaseSchema().quotedDatabaseIdentifier))") {
             // row = [id:0 seq:0 table:"parents" from:"parentId" to:"id" on_update:"..." on_delete:"..." match:"..."]
             let id: Int = row[0]
             let seq: Int = row[1]
