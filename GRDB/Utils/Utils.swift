@@ -9,7 +9,36 @@ extension String {
     ///     db.execute(sql: "SELECT * FROM \(tableName.quotedDatabaseIdentifier)")
     @inlinable public var quotedDatabaseIdentifier: String {
         // See https://www.sqlite.org/lang_keywords.html
-        return "\"\(self)\""
+        return components(separatedBy: ".").map { "\"\($0)\"" }.joined(separator: ".")
+    }
+    
+    /// Returns the schema prefix if the receiver is an identifier. Returns
+    /// an empty string if the receiver does not have a prefix.
+    var databaseSchema: String {
+        if let i = firstIndex(of: ".") {
+            return String(prefix(upTo: i))
+        } else {
+            return ""
+        }
+    }
+    
+    /// Prefixes the receiver with the given schema prefix. Returns `self` if
+    /// the schema is empty.
+    func prefixingDatabaseSchema(_ schema: String) -> String {
+        guard !schema.isEmpty else {
+            return self
+        }
+        return schema + "." + self
+    }
+    
+    /// Strips the schema prefix from the identifier. Returns `self` if the
+    /// receiver does not have a schema prefix.
+    func strippingDatabaseSchema() -> String {
+        if let i = firstIndex(of: ".") {
+            return String(suffix(from: index(after: i)))
+        } else {
+            return self
+        }
     }
 }
 
