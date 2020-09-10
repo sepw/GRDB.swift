@@ -66,11 +66,22 @@ extension Database {
     }
     
     /// Returns whether a view exists.
+    ///
+    /// Fully-qualified names of views in the master and temporary databases
+    /// (e.g. `main.<view>` and `temp.<view>.` are supported. However, the
+    /// function will always return `false` for views in attached databases,
+    /// even when qualified with the name of the attached database.
     public func viewExists(_ name: String) throws -> Bool {
         try exists(type: .view, name: name)
     }
     
     /// Returns whether a trigger exists.
+    ///
+    /// Fully-qualified names of triggers in the master and temporary
+    /// databases (e.g. `main.<view>` and `temp.<view>.` are supported.
+    /// However, the function will always return `false` for triggers in
+    /// attached databases, even when qualified with the name of the
+    /// attached database.
     public func triggerExists(_ name: String) throws -> Bool {
         try exists(type: .trigger, name: name)
     }
