@@ -69,9 +69,15 @@ extension Database {
         // SQlite identifiers are case-insensitive, case-preserving:
         // http://www.alberton.info/dbms_identifiers_and_case_sensitivity.html
         let name = name.lowercased()
-        return try schema()
-            .names(ofType: type)
-            .contains { $0.lowercased() == name }
+        if !name.databaseSchema.isEmpty {
+            return try schema()
+                .qualifiedNames(ofType: type)
+                .contains { $0.lowercased() == name }
+        } else {
+            return try schema()
+                .names(ofType: type)
+                .contains { $0.lowercased() == name }
+        }
     }
     
     /// The primary key for table named `tableName`.
