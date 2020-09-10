@@ -660,6 +660,15 @@ struct SchemaInfo: Equatable {
         }
     }
     
+    /// All qualified names for a given type
+    func qualifiedNames(ofType type: SchemaObjectType) -> Set<String> {
+        objects.reduce(into: []) { (set, key) in
+            if key.type == type.rawValue {
+                set.insert("\(key.database).\(key.name)")
+            }
+        }
+    }
+
     /// Returns the canonical name of the object:
     ///
     ///     try db.execute(sql: "CREATE TABLE FooBar (...)")
