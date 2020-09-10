@@ -381,8 +381,9 @@ extension Database {
                 throw DatabaseError(message: "no such table: \(tableName)")
             }
         }
+        let tableInfo = "table_info".prefixingDatabaseSchema(tableName.databaseSchema)
         let columns = try ColumnInfo
-            .fetchAll(self, sql: "PRAGMA table_info(\(tableName.quotedDatabaseIdentifier))")
+            .fetchAll(self, sql: "PRAGMA \(tableInfo)(\(tableName.strippingDatabaseSchema().quotedDatabaseIdentifier))")
             .sorted(by: { $0.cid < $1.cid })
         if columns.isEmpty {
             throw DatabaseError(message: "no such table: \(tableName)")
