@@ -645,9 +645,9 @@ struct SchemaInfo: Equatable {
     
     init(_ db: Database) throws {
         objects = try Set(SchemaObject.fetchCursor(db, sql: """
-            SELECT type, name, tbl_name, sql, 0 AS isTemporary FROM sqlite_master \
+            SELECT "main" as database, type, name, tbl_name, sql, 0 AS isTemporary FROM sqlite_master \
             UNION \
-            SELECT type, name, tbl_name, sql, 1 FROM sqlite_temp_master
+            SELECT "temp" as database, type, name, tbl_name, sql, 1 FROM sqlite_temp_master
             """))
     }
     
@@ -670,6 +670,7 @@ struct SchemaInfo: Equatable {
     }
     
     private struct SchemaObject: Codable, Hashable, FetchableRecord {
+        var database: String
         var type: String
         var name: String
         var tbl_name: String?
