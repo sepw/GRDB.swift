@@ -970,8 +970,16 @@ private struct IndexDefinition {
         }
         chunks.append(name.quotedDatabaseIdentifier)
         chunks.append("ON")
+
+        // SQLite's handling of qualified names in CREATE INDEX statements is
+        // a little counter-intuitive:
+        //
+        // The index name must be prefixed with the schema, whereas the schema
+        // must be omitted from the table name.
+        //
+        // The schema name is therefore stripped off the table name here.
         chunks.append("""
-            \(table.quotedDatabaseIdentifier)(\
+            \(table.strippingDatabaseSchema().quotedDatabaseIdentifier)(\
             \(columns.map(\.quotedDatabaseIdentifier).joined(separator: ", "))\
             )
             """)
