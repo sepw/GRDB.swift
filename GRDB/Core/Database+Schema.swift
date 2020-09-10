@@ -52,7 +52,7 @@ extension Database {
     ///
     /// Those are tables whose name begins with "grdb_".
     public func isGRDBInternalTable(_ tableName: String) -> Bool {
-        tableName.starts(with: "grdb_")
+        tableName.strippingDatabaseSchema().starts(with: "grdb_")
     }
     
     /// Returns whether a view exists.
