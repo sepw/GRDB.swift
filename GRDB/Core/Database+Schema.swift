@@ -218,14 +218,16 @@ extension Database {
             return indexes
         }
         
+        let index_list = "index_list".prefixingDatabaseSchema(tableName.databaseSchema)
         let indexes = try Row
-            .fetchAll(self, sql: "PRAGMA index_list(\(tableName.quotedDatabaseIdentifier))")
+            .fetchAll(self, sql: "PRAGMA \(index_list)(\(tableName.strippingDatabaseSchema().quotedDatabaseIdentifier))")
             .map { row -> IndexInfo in
                 // [seq:0 name:"index" unique:0 origin:"c" partial:0]
                 let indexName: String = row[1]
                 let unique: Bool = row[2]
+                let index_info = "index_info".prefixingDatabaseSchema(tableName.databaseSchema)
                 let columns = try Row
-                    .fetchAll(self, sql: "PRAGMA index_info(\(indexName.quotedDatabaseIdentifier))")
+                    .fetchAll(self, sql: "PRAGMA \(index_info)(\(indexName.quotedDatabaseIdentifier))")
                     .map({ row -> (Int, String) in
                         // [seqno:0 cid:2 name:"column"]
                         (row[0] as Int, row[2] as String)
