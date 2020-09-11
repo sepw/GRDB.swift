@@ -198,6 +198,34 @@ class SchemaTests: GRDBTestCase {
             }
         }
     }
+    
+    func testRenameTableFromQNameToQNameInTempDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            try db.rename(table: "\(TempDatabase.name).test", to: "\(TempDatabase.name).test_renamed")
+            let exists = try db.tableExists("\(TempDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+    
+    func testRenameTableFromQNameToNameInTempDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            try db.rename(table: "\(TempDatabase.name).test", to: "test_renamed")
+            let exists = try db.tableExists("\(TempDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+    
+    func testRenameTableFromNameToQNameInTempDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            XCTAssertThrowsError(try db.rename(table: "test", to: "\(TempDatabase.name).test_renamed"))
+        }
+    }
 
     // MARK: -
 
@@ -329,6 +357,37 @@ class SchemaTests: GRDBTestCase {
             try db.alter(table: "\(AttachedDatabase.name).test") { a in
                 a.add(column: "middleName", .text)
             }
+        }
+    }
+    
+    func testRenameTableFromQNameToQNameInAttachedDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            try db.rename(table: "\(AttachedDatabase.name).test", to: "\(AttachedDatabase.name).test_renamed")
+            let exists = try db.tableExists("\(AttachedDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+    
+    func testRenameTableFromQNameToNameInAttachedDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            try db.rename(table: "\(AttachedDatabase.name).test", to: "test_renamed")
+            let exists = try db.tableExists("\(AttachedDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+    
+    func testRenameTableFromNameToQNameInAttachedDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            XCTAssertThrowsError(try db.rename(table: "test", to: "\(AttachedDatabase.name).test_renamed"))
         }
     }
 
