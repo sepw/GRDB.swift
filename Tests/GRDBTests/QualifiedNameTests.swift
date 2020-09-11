@@ -199,17 +199,7 @@ class QualifiedNameTests: GRDBTestCase {
         }
     }
     
-    func testRenameTableFromQNameToQNameInTempDatabase() throws {
-        let queue = DatabaseQueue()
-        try queue.inDatabase { db in
-            try createTable(in: db, schema: TempDatabase.self)
-            try db.rename(table: "\(TempDatabase.name).test", to: "\(TempDatabase.name).test_renamed")
-            let exists = try db.tableExists("\(TempDatabase.name).test_renamed")
-            XCTAssertTrue(exists)
-        }
-    }
-    
-    func testRenameTableFromQNameToNameInTempDatabase() throws {
+    func testRenameTableInTempDatabase() throws {
         let queue = DatabaseQueue()
         try queue.inDatabase { db in
             try createTable(in: db, schema: TempDatabase.self)
@@ -218,12 +208,30 @@ class QualifiedNameTests: GRDBTestCase {
             XCTAssertTrue(exists)
         }
     }
-    
-    func testRenameTableFromNameToQNameInTempDatabase() throws {
+
+    func testRenameTableToQualifiedNameInTempDatabase() throws {
         let queue = DatabaseQueue()
         try queue.inDatabase { db in
             try createTable(in: db, schema: TempDatabase.self)
-            XCTAssertThrowsError(try db.rename(table: "test", to: "\(TempDatabase.name).test_renamed"))
+            try db.rename(table: "\(TempDatabase.name).test", to: "\(TempDatabase.name).test_renamed")
+            let exists = try db.tableExists("\(TempDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+
+    func testCreateIndexInTempDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            try db.create(index: "\(TempDatabase.name).test_index", on: "test", columns: [ "firstName" ])
+        }
+    }
+
+    func testCreateIndexInTempDatabaseOnTableWithQualifiedName() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            try db.create(index: "\(TempDatabase.name).test_index", on: "\(TempDatabase.name).test", columns: [ "firstName" ])
         }
     }
 
@@ -360,18 +368,7 @@ class QualifiedNameTests: GRDBTestCase {
         }
     }
     
-    func testRenameTableFromQNameToQNameInAttachedDatabase() throws {
-        let queue = DatabaseQueue()
-        try queue.inDatabase { db in
-            try attach(AttachedDatabase.name, to: db)
-            try createTable(in: db, schema: AttachedDatabase.self)
-            try db.rename(table: "\(AttachedDatabase.name).test", to: "\(AttachedDatabase.name).test_renamed")
-            let exists = try db.tableExists("\(AttachedDatabase.name).test_renamed")
-            XCTAssertTrue(exists)
-        }
-    }
-    
-    func testRenameTableFromQNameToNameInAttachedDatabase() throws {
+    func testRenameTableInAttachedDatabase() throws {
         let queue = DatabaseQueue()
         try queue.inDatabase { db in
             try attach(AttachedDatabase.name, to: db)
@@ -381,13 +378,33 @@ class QualifiedNameTests: GRDBTestCase {
             XCTAssertTrue(exists)
         }
     }
-    
-    func testRenameTableFromNameToQNameInAttachedDatabase() throws {
+
+    func testRenameTableToQualifiedNameInAttachedDatabase() throws {
         let queue = DatabaseQueue()
         try queue.inDatabase { db in
             try attach(AttachedDatabase.name, to: db)
             try createTable(in: db, schema: AttachedDatabase.self)
-            XCTAssertThrowsError(try db.rename(table: "test", to: "\(AttachedDatabase.name).test_renamed"))
+            try db.rename(table: "\(AttachedDatabase.name).test", to: "\(AttachedDatabase.name).test_renamed")
+            let exists = try db.tableExists("\(AttachedDatabase.name).test_renamed")
+            XCTAssertTrue(exists)
+        }
+    }
+
+    func testCreateIndexInAttachedDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            try db.create(index: "\(AttachedDatabase.name).test_index", on: "test", columns: [ "firstName" ])
+        }
+    }
+
+    func testCreateIndexInAttachedDatabaseOnTableWithQualifiedName() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            try db.create(index: "\(AttachedDatabase.name).test_index", on: "\(AttachedDatabase.name).test", columns: [ "firstName" ])
         }
     }
 
