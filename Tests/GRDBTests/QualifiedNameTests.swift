@@ -21,7 +21,7 @@ private struct AttachedDatabase: SchemaTraits {
     public static let name = "attached"
 }
 
-class SchemaTests: GRDBTestCase {
+class QualifiedNameTests: GRDBTestCase {
     
     private func createTable<Schema>(in db: Database, schema: Schema.Type) throws where Schema: SchemaTraits {
         try db.create(table: "\(Schema.name).test") { t in

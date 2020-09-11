@@ -1245,8 +1245,8 @@
 		C96C0F2D2084A45A006B2981 /* SQLiteDateParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96C0F242084A442006B2981 /* SQLiteDateParser.swift */; };
 		DC2393C81ABE35F8003FF113 /* GRDB-Bridging.h in Headers */ = {isa = PBXBuildFile; fileRef = DC2393C61ABE35F8003FF113 /* GRDB-Bridging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC3773F919C8CBB3004FCF85 /* GRDB.h in Headers */ = {isa = PBXBuildFile; fileRef = DC3773F819C8CBB3004FCF85 /* GRDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F446109C250A2AD600299232 /* SchemaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446109B250A2AD600299232 /* SchemaTests.swift */; };
-		F446109D250A2AD600299232 /* SchemaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446109B250A2AD600299232 /* SchemaTests.swift */; };
+		F446109C250A2AD600299232 /* QualifiedNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446109B250A2AD600299232 /* QualifiedNameTests.swift */; };
+		F446109D250A2AD600299232 /* QualifiedNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F446109B250A2AD600299232 /* QualifiedNameTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1662,7 +1662,7 @@
 		DC3773F719C8CBB3004FCF85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC3773F819C8CBB3004FCF85 /* GRDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GRDB.h; sourceTree = "<group>"; };
 		DC37740419C8CBB3004FCF85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F446109B250A2AD600299232 /* SchemaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaTests.swift; sourceTree = "<group>"; };
+		F446109B250A2AD600299232 /* QualifiedNameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifiedNameTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1840,7 +1840,7 @@
 				569978D31B539038005EBEED /* Private */,
 				56300B5C1C53C38F005A543B /* QueryInterface */,
 				56A238251B9C74A90082EB20 /* Record */,
-				F446109A250A2A8D00299232 /* Schema */,
+				F446109A250A2A8D00299232 /* Qualified Names */,
 				56176C9F1EACEE15000F3F2B /* Support */,
 				563B06BF2185CD1700B38F35 /* ValueObservation */,
 			);
@@ -2537,12 +2537,12 @@
 			path = ../Support;
 			sourceTree = "<group>";
 		};
-		F446109A250A2A8D00299232 /* Schema */ = {
+		F446109A250A2A8D00299232 /* Qualified Names */ = {
 			isa = PBXGroup;
 			children = (
-				F446109B250A2AD600299232 /* SchemaTests.swift */,
+				F446109B250A2AD600299232 /* QualifiedNameTests.swift */,
 			);
-			name = Schema;
+			name = "Qualified Names";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3426,7 +3426,7 @@
 				569BBA28228DE51800478429 /* AssociationPrefetchingFetchableRecordTests.swift in Sources */,
 				56F34FC324B0A0B7007513FC /* SQLIdentifyingColumnsTests.swift in Sources */,
 				562393641DEE06D300A6B01F /* CursorTests.swift in Sources */,
-				F446109D250A2AD600299232 /* SchemaTests.swift in Sources */,
+				F446109D250A2AD600299232 /* QualifiedNameTests.swift in Sources */,
 				5657AB5A1D108BA9006283EF /* FoundationNSStringTests.swift in Sources */,
 				560432A1228F00C2009D3FE2 /* OrderedDictionaryTests.swift in Sources */,
 				56300B6C1C53D3E8005A543B /* TableRecord+QueryInterfaceRequestTests.swift in Sources */,
@@ -3652,7 +3652,7 @@
 				56D496951D81317B008276D7 /* MutablePersistableRecordTests.swift in Sources */,
 				56F34FC224B0A0B7007513FC /* SQLIdentifyingColumnsTests.swift in Sources */,
 				569BBA27228DE51800478429 /* AssociationPrefetchingFetchableRecordTests.swift in Sources */,
-				F446109C250A2AD600299232 /* SchemaTests.swift in Sources */,
+				F446109C250A2AD600299232 /* QualifiedNameTests.swift in Sources */,
 				5653EAD620944B4F00F46237 /* AssociationChainRowScopesTests.swift in Sources */,
 				5698AC801DA380A20056AF8C /* VirtualTableModuleTests.swift in Sources */,
 				560432A0228F00C2009D3FE2 /* OrderedDictionaryTests.swift in Sources */,
