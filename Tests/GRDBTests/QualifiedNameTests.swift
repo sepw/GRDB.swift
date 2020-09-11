@@ -235,6 +235,15 @@ class QualifiedNameTests: GRDBTestCase {
         }
     }
 
+    func testDropIndexInTempDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try createTable(in: db, schema: TempDatabase.self)
+            try db.create(index: "\(TempDatabase.name).test_index", on: "test", columns: [ "firstName" ])
+            try db.drop(index: "\(TempDatabase.name).test_index")
+        }
+    }
+
     // MARK: -
 
     func testInsertRecordIntoTempDatabase() throws {
@@ -405,6 +414,16 @@ class QualifiedNameTests: GRDBTestCase {
             try attach(AttachedDatabase.name, to: db)
             try createTable(in: db, schema: AttachedDatabase.self)
             try db.create(index: "\(AttachedDatabase.name).test_index", on: "\(AttachedDatabase.name).test", columns: [ "firstName" ])
+        }
+    }
+
+    func testDropIndexInAttachedDatabase() throws {
+        let queue = DatabaseQueue()
+        try queue.inDatabase { db in
+            try attach(AttachedDatabase.name, to: db)
+            try createTable(in: db, schema: AttachedDatabase.self)
+            try db.create(index: "\(AttachedDatabase.name).test_index", on: "test", columns: [ "firstName" ])
+            try db.drop(index: "\(AttachedDatabase.name).test_index")
         }
     }
 
