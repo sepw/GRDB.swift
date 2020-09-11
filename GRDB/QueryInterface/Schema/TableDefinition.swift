@@ -48,14 +48,6 @@ extension Database {
     ///
     /// - throws: A DatabaseError whenever an SQLite error occurs.
     public func rename(table name: String, to newName: String) throws {
-        if !newName.databaseSchema.isEmpty {
-            guard !name.databaseSchema.isEmpty else {
-                throw DatabaseError(message: "Expected fully-qualified table name for \(name)")
-            }
-            guard newName.databaseSchema == name.databaseSchema else {
-                throw DatabaseError(message: "Current (\(name)) and new (\(newName)) table names must belong to same schema")
-            }
-        }
         try execute(sql: "ALTER TABLE \(name.quotedDatabaseIdentifier) RENAME TO \(newName.strippingDatabaseSchema().quotedDatabaseIdentifier)")
     }
     
